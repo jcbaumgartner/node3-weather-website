@@ -4,7 +4,7 @@ const key = 'b2d5480b7cac854ab50e07ef7801c71a';
 
 const forecast = ( latitude, longitude , callback ) => {
     const url = `https://api.darksky.net/forecast/${key}/${latitude},${longitude}`;
-    request({ url , json:true }, (error,{ body }) => {
+    request({ url , json:true }, (error,{ body } = {}) => {
 
         if ( error ) {
             callback('unable to connect to weather service!', undefined);
@@ -13,7 +13,8 @@ const forecast = ( latitude, longitude , callback ) => {
             callback('unable to find location!', undefined);
         }
         else {
-            const forecastData = body.daily.data[0].summary + ' It is currently ' + body.currently.temperature + ' degrees with a ' + (body.currently.precipProbability * 100) + '% chance of rain.'
+            const forecastData = body.daily.data[0].summary + ' It is currently ' + body.currently.temperature + ' degrees with a ' + (body.currently.precipProbability * 100) + '% chance of rain.' + ' The humidity is ' + (body.currently.humidity * 100) + '% and there is a wind speed of ' + body.currently.windSpeed + 'mph.';
+            console.log(body.currently);
             callback(undefined, forecastData);
         }
         
